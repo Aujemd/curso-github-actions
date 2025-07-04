@@ -7,7 +7,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - "triggers.js"
+      - "triggers-automatic-notification.js"
+      - "triggers-manual-notification.js"
   issues:
     types:
       - labeled
