@@ -1,0 +1,53 @@
+name: "Triggers"
+run-name: "Triggers example"
+on:
+  push:
+    branches:
+      - aprendiendo-github-actions
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "triggers.js"
+  issues:
+    types:
+      - labeled
+  workflow_dispatch:
+    inputs:
+      dev:
+        description: "Developer who must be notified"
+        default: "Manantial"
+        required: true
+        type: choice
+        options:
+          - Manantial
+          - Seluco
+          - Tk
+      requester:
+        description: "Name of the requester"
+        required: true
+        default: "Johan"
+        type: string
+jobs:
+  manual-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: "Set developer and requester names"
+        run: |
+          echo "dev=${{ inputs.dev }}" >> $GITHUB_ENV
+          echo "requester=${{ inputs.requester }}" >> $GITHUB_ENV
+      - name: "Notify developer"
+        run: "node triggers-manual-notification.js ${{ inputs.dev }} ${{ env.requester }}"
+  automatic-notification:
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: "Set developer and requester names"
+        run: |
+          echo "requester=${{ inputs.dev }}" >> $GITHUB_ENV
+          echo "dev=${{ inputs.requester }}" >> $GITHUB_ENV
+      - name: "Notify developer"
+        run: "node triggers-automatic-notification.js ${{ github.event.inputs.dev }} ${{ env.requester }}"
