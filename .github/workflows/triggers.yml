@@ -13,7 +13,7 @@ on:
       - labeled
   workflow_dispatch:
     inputs:
-      dev:
+      developer:
         description: "Developer who must be notified"
         default: "Manantial"
         required: true
@@ -35,10 +35,10 @@ jobs:
         uses: actions/checkout@v3
       - name: "Set developer and requester names"
         run: |
-          echo "dev=${{ inputs.dev }}" >> $GITHUB_ENV
-          echo "requester=${{ inputs.requester }}" >> $GITHUB_ENV
+          echo "DEVELOPER=${{ inputs.developer }}" >> $GITHUB_ENV
+          echo "REQUESTER=${{ inputs.requester }}" >> $GITHUB_ENV
       - name: "Notify developer"
-        run: "node triggers-manual-notification.js ${{ inputs.dev }} ${{ env.requester }}"
+        run: "node triggers-manual-notification.js ${{ env.DEVELOPER }} ${{ env.REQUESTER }}"
   automatic-notification:
     if: ${{ github.event_name != 'workflow_dispatch' }}
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v3
       - name: "Set developer and requester names"
         run: |
-          echo "requester=${{ inputs.dev }}" >> $GITHUB_ENV
-          echo "dev=${{ inputs.requester }}" >> $GITHUB_ENV
+          echo "DEVELOPER=${{ inputs.requester }}" >> $GITHUB_ENV
+          echo "REQUESTER=${{ inputs.developer }}" >> $GITHUB_ENV
       - name: "Notify developer"
-        run: "node triggers-automatic-notification.js ${{ github.event.inputs.dev }} ${{ env.requester }}"
+        run: "node triggers-automatic-notification.js ${{ env.DEVELOPER }} ${{ env.REQUESTER }}"
