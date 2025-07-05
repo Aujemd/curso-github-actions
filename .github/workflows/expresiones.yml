@@ -1,0 +1,36 @@
+name: "Expresiones"
+run-name: "Example using expressions"
+
+on:
+  workflow_dispatch:
+    inputs:
+      developer:
+        description: "Elige un desarrollador"
+        required: true
+        type: choice
+        options:
+          - Manantial
+          - Seluco
+          - Tk
+
+jobs:
+  manantial-job:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.developer == 'Manantial'
+    steps:
+      - name: "Animal de Manantial"
+        run: echo "el animal de Manantial es un sapo"
+
+  seluco-job:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.developer == 'Seluco'
+    steps:
+      - name: "Animal de Seluco"
+        run: echo "el animal del seluco es un gorila"
+
+  tk-job:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.developer == 'Tk'
+    steps:
+      - name: "Animal de Tk"
+        run: echo "el animal de tk es una mariposa"
