@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: "Set developer and requester names"
         run: |
           echo "DEVELOPER=${{ inputs.developer }}" >> $GITHUB_ENV
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
       - name: "Set developer and requester names"
         run: |
           echo "DEVELOPER=${{ inputs.requester }}" >> $GITHUB_ENV
